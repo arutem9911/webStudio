@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'api',
+    'accounts',
     'web',
 ]
 
@@ -131,8 +132,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'accounts.User'
-#
-# LOGIN_URL = 'login'
+AUTH_USER_MODEL = 'accounts.User'
 
-# LOGOUT_REDIRECT_URL = 'main'
+LOGIN_URL = 'login'
+
+LOGOUT_REDIRECT_URL = 'main'
