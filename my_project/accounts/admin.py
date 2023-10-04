@@ -8,12 +8,11 @@ from accounts.models import User, Profile
 
 class ProfileInline(admin.StackedInline):
     model = Profile
-    fields = ['first_name', 'last_name', 'city']
+    fields = ['city']
 
 
 class UserProfileAdmin(UserAdmin):
     inlines = [ProfileInline]
-    ordering = ('username', 'email', 'phone', 'photo', 'birth_date')
 
 
 admin.site.register(User, UserProfileAdmin)
