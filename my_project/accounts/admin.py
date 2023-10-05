@@ -1,18 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from accounts.models import User, Profile
+from accounts.models import User
 
 # Register your models here.
 
 
-class ProfileInline(admin.StackedInline):
-    model = Profile
-    fields = ['city']
+class CustomUserAdmin(UserAdmin):
+    list_display = ('id', 'username', 'email', 'phone', 'photo', 'birth_date')
+    list_filter = ['birth_date']
 
 
-class UserProfileAdmin(UserAdmin):
-    inlines = [ProfileInline]
-
-
-admin.site.register(User, UserProfileAdmin)
+admin.site.register(User, CustomUserAdmin)

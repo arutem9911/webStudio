@@ -1,24 +1,13 @@
 from rest_framework.viewsets import ModelViewSet
-from accounts.models import Profile, User
+from accounts.models import User
 from web.models import Order
 from api import serializers
-from .serializers import ProfileSerializer, UserSerializer, OrderSerializer
-from django.contrib.auth import get_user_model
-
-# Create your views here.
-
-
-class ProfileViewSet(ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
-    lookup_field = 'id'
-    lookup_url_kwarg = 'id'
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def perform_update(self, serializer):
-        serializer.save(user=self.request.user)
+from api.serializers import UserSerializer, OrderSerializer, LoginUserSerializer, UserUpdateSerializer, OrderCreateSerializer
+from django.contrib.auth import authenticate
+from rest_framework import status, serializers
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserViewSet(ModelViewSet):
@@ -27,9 +16,9 @@ class UserViewSet(ModelViewSet):
     # lookup_field = 'id'
     lookup_url_kwarg = 'id'
     method_serializers = {
-        'get': serializers.UserSerializer,
-        'put': serializers.UserUpdateSerializer,
-        'patch': serializers.UserUpdateSerializer
+        'get': UserSerializer,
+        'put': UserUpdateSerializer,
+        'patch': UserUpdateSerializer
     }
 
     def get_serializer_class(self):
@@ -45,10 +34,10 @@ class OrderViewSet(ModelViewSet):
     lookup_field = 'id'
     lookup_url_kwarg = 'id'
     method_serializers = {
-        'get': serializers.OrderSerializer,
-        'post': serializers.OrderCreateSerializer,
-        'put': serializers.OrderCreateSerializer,
-        'patch': serializers.OrderCreateSerializer
+        'get': OrderSerializer,
+        'post': OrderCreateSerializer,
+        'put': OrderCreateSerializer,
+        'patch': OrderCreateSerializer
     }
 
     def get_serializer_class(self):
@@ -57,6 +46,6 @@ class OrderViewSet(ModelViewSet):
             return self.method_serializers.get(method)
         return self.serializer_class
 
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user_id)
 

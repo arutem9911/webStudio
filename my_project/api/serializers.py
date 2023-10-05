@@ -1,7 +1,10 @@
 from rest_framework import serializers
-from accounts.models import Profile, User
+from accounts.models import User
 from django.contrib.auth import get_user_model
 from web.models import Order
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, PasswordField
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -25,13 +28,6 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         read_only = ['id']
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profile
-        fields = ['id', 'user', 'city']
-        read_only_fields = ['id', 'user']
-
-
 class AutorSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -51,3 +47,7 @@ class OrderCreateSerializer(serializers.ModelSerializer):
         model = Order
         fields = ['title', 'description']
 
+
+class LoginUserSerializer(serializers.Serializer):
+    phone = serializers.CharField()
+    password = serializers.CharField(write_only=True)
