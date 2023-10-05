@@ -9,20 +9,20 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, username, phone, password=None):
+    def create_user(self, username, phone, birth_date, email, password=None):
         if username is None:
             raise TypeError('Users must have a username')
         if phone is None:
             raise TypeError('Users must have a phone')
-        user = self.model(username=username, phone=phone)
+        user = self.model(username=username, phone=phone, birth_date=birth_date, email=email)
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, username, phone, password):
+    def create_superuser(self, username, phone, password, birth_date, email):
         if password is None:
             raise TypeError('Superuser must have a password')
-        user = self.create_user(username, phone, password)
+        user = self.create_user(username, phone, password, birth_date, email)
         user.is_superuser = True
         user.is_staff = True
         user.save()
@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=20, null=True, default=None)
     date_joined = models.DateField(default=timezone.now)
     USERNAME_FIELD = 'phone'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username', 'birth_date', 'email']
     objects = CustomUserManager()
 
     def __str__(self):

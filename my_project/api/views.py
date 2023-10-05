@@ -47,5 +47,8 @@ class OrderViewSet(ModelViewSet):
         return self.serializer_class
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user_id)
+        try:
+            serializer.save(author=self.request.user_id)
+        except AttributeError:
+            serializer.save(author=None)
 
