@@ -1,0 +1,26 @@
+{% load static %}
+
+{% csrf_token %}
+
+{% for error in form.non_field_errors %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endfor %}
+
+{% if error_message %}
+  <div class="alert alert-danger">{{ error_message }}</div>
+{% endif %}
+
+{% for field in form.visible_fields %}
+    {% if field.errors %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <label id="{{ field.label }}">{{ field.label }}</label>
+    {{ field }}
+{% endfor %}
+
+<button id="SubmitBtn" type="submit" class="btn btn-success">{{ button_text }}</button>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+

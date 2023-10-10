@@ -45,10 +45,3 @@ class OrderViewSet(ModelViewSet):
         if method in self.method_serializers:
             return self.method_serializers.get(method)
         return self.serializer_class
-
-    def perform_create(self, serializer):
-        try:
-            serializer.save(author=self.request.user_id)
-        except AttributeError:
-            serializer.save(author=None)
-

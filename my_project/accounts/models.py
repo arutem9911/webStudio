@@ -34,7 +34,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(null=True, blank=True)
     phone = models.IntegerField(db_index=True, unique=True, null=False, blank=False)
     photo = models.ImageField(upload_to='user', blank=False, null=False, default='user/default-avatar.jpg')
-    birth_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата рождения')
+    birth_date = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

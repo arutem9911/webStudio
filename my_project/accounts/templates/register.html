@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="marg">
+        <h1 class="mb-5">Registration</h1>
+        <form enctype="multipart/form-data" action="" method="post">
+            {% include 'partial/form.html' with button_text='Register' %}
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/register.js' %}"></script>
+{% endblock %}

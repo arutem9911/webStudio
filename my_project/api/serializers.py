@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from accounts.models import User
 from django.contrib.auth import get_user_model
-from web.models import Order
+from web.models import Order, ImageAttachment, FileAttachment, Status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer, PasswordField
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -18,7 +18,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=100, required=False)
     email = serializers.EmailField(required=False)
     photo = serializers.ImageField(required=False)
-    birth_date = serializers.DateTimeField(required=False)
+    birth_date = serializers.DateField(required=False)
     last_name = serializers.CharField(max_length=100, required=False)
     first_name = serializers.CharField(max_length=100, required=False)
 
@@ -34,18 +34,39 @@ class AutorSerializer(serializers.ModelSerializer):
         fields = ['username', 'phone', 'first_name', 'last_name']
 
 
+class ImgAttachmentGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ImageAttachment
+        fields = ['image']
+
+
+class FileAttachmentGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FileAttachment
+        fields = ['document']
+
+
+class StatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Status
+        fields = ['title']
+
+
 class OrderSerializer(serializers.ModelSerializer):
     author = AutorSerializer()
+    img_attachments = ImgAttachmentGetSerializer(read_only=True, many=True)
+    file_attachments = FileAttachmentGetSerializer(read_only=True, many=True)
+    status = StatusSerializer()
 
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ['id', 'author', 'title', 'description', 'created_at', 'updated_at', 'img_attachments', 'file_attachments', 'status']
 
 
 class OrderCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['title', 'description']
+        fields = ['title', 'description', 'author']
 
 
 class LoginUserSerializer(serializers.Serializer):

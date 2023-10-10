@@ -1,0 +1,47 @@
+  {% load static %}
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script defer  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href={% static 'css/styles.css' %}>
+  </head>
+  <body>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: rgb(212, 236, 245);">
+  <div class="container">
+    <a class="navbar-brand" href="#"> <img class="img-width-2 me-2" src="https://upload.wikimedia.org/wikipedia/commons/7/79/HeadHunter_logo.png" alt="logo" style="width: 9% "> </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarNavAltMarkup">
+      <div class="navbar-nav ">
+
+          <a type="button" class="btn btn-outline-danger h-50 mt-2 " href="#">Profile</a>
+
+          <a type="button" class="btn btn-outline-danger h-50 mt-2 marg-btn-log" href="#">Logout</a>
+            <a type="button" class="btn btn-outline-primary" href="#">Login</a>
+            <a type="button" class="btn btn-outline-secondary marg-btn-log" href="#">Register</a>
+
+
+          {% block menu %}
+          {% endblock %}
+      </div>
+    </div>
+  </div>
+</nav>
+
+    <div class="container">
+          {% block content %} {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% block script %} {% endblock %}
+  </body>
+  </html>
